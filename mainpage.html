@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel='stylesheet' type='text/css' href='style.css'>
+</head>
+
+<body>
+    <div id= grid class="grid">
+        <div class="box topbar">This is the top bar</div>
+        <div class="box leftbar">This is the left bar</div>
+        <div id=center class="box centerconsole">
+            <input id=soundbutton type="button" onclick="myFunction()" class="newsoundbutton" value="New Sound!">
+            <script>
+                function myFunction() {
+                    if (document.getElementById("soundbutton").value === "New Sound!"){
+                        document.getElementById("soundbutton").value = "Clicked!";
+                    } else {
+                        document.getElementById("soundbutton").value = "New Sound!"
+                    }
+                    
+                }
+            </script>
+            <input id=playbutton type="button" onclick="changePlayButton()" class="playbutton" value=">">
+            <script>
+                function changePlayButton() {
+                    if (document.getElementById("playbutton").value === ">") {
+                        document.getElementById("playbutton").value = "||";
+                    } else {
+                        document.getElementById("playbutton").value = ">";
+                    }
+                }
+            </script>
+        </div>
+        <div class="box bottombar">
+            
+        </div>
+       
+        
+    </div>
+</body>
+
+</html>
