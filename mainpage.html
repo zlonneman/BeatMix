@@ -6,21 +6,29 @@
 </head>
 
 <body>
-    <div id= grid class="grid">
+    <div id=mainpage class="main grid">
         <div class="box topbar">This is the top bar</div>
         <div class="box leftbar">This is the left bar</div>
-        <div id=center class="box centerconsole">
-            <input id=soundbutton type="button" onclick="myFunction()" class="newsoundbutton" value="New Sound!">
-            <script>
-                function myFunction() {
-                    if (document.getElementById("soundbutton").value === "New Sound!"){
-                        document.getElementById("soundbutton").value = "Clicked!";
-                    } else {
-                        document.getElementById("soundbutton").value = "New Sound!"
-                    }
-                    
-                }
-            </script>
+        <div id=center class="box center">
+            <!--
+            <div id=beatbuttons-row1 class="grid beatrows">
+                <input id=button-col1 class=rowbuttons type="button" onclick="turnOn()"></input>
+                <input id=button-col2 class=rowbuttons type="button" onclick="turnOn()"></input>
+                <input id=button-col3 class=rowbuttons type="button" onclick="turnOn()"></input>
+                <input id=button-col4 class=rowbuttons type="button" onclick="turnOn()"></input>
+            </div>
+            <div id=beatbuttons-row2 class="grid beatrows">
+                <input id=button-col1 class=rowbuttons type="button" onclick="turnOn()"></input>
+                <input id=button-col2 class=rowbuttons type="button" onclick="turnOn()"></input>
+                <input id=button-col3 class=rowbuttons type="button" onclick="turnOn()"></input>
+                <input id=button-col4 class=rowbuttons type="button" onclick="turnOn()"></input>
+            </div>
+        -->
+            <script>let x = 1;</script>
+            <input id=soundbutton type="button" onclick="makeButtons(x)" class="newsoundbutton" value="New Sound!">
+            <script src="script.js"></script>
+
+            <!--
             <input id=playbutton type="button" onclick="changePlayButton()" class="playbutton" value=">">
             <script>
                 function changePlayButton() {
@@ -31,6 +39,7 @@
                     }
                 }
             </script>
+        -->
         </div>
         <div class="box bottombar">
             
