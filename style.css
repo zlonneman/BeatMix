@@ -12,7 +12,7 @@
 }
 
 .newsoundbutton {
-  background-color: rgb(0, 238, 255);
+  background-color: rgb(100, 245, 255);
   color: rgb(51, 48, 48);
   padding: 8px 16px;
   width: 100px;
@@ -24,10 +24,44 @@
   cursor: pointer;
   display: block;
   position: absolute;
-  top: 470px;
-  left: 52%
-  /*grid-area: 9 / 9 / span 1 / span 3;*/
+  top: 540px;
+  left: 3%;
 }
+
+.likebutton {
+  background-color: rgb(100, 245, 255);
+  color: rgb(51, 48, 48);
+  padding: 8px 8px;
+  width: 75px;
+  height: 50px;
+  text-align: center;
+  border-radius: 2px;
+  font-size: 12px;
+  margin: 8px 4px;
+  cursor: pointer;
+  display: none;
+  position: absolute;
+  top: 540px;
+  left: 5%;
+}
+
+.dislikebutton {
+  background-color: rgb(100, 245, 255);
+  color: rgb(51, 48, 48);
+  padding: 8px 8px;
+  width: 75px;
+  height: 50px;
+  text-align: center;
+  border-radius: 2px;
+  font-size: 12px;
+  margin: 8px 4px;
+  cursor: pointer;
+  display: none;
+  position: absolute;
+  top: 540px;
+  left: 1%;
+}
+
 
 .playpausebutton {
     background-color: rgb(0, 0, 0);
@@ -58,10 +92,14 @@
     grid-area: 3 / 2 / span 1 / span 1;
 }
 
-#center{
+.center{
     grid-area: 2 / 2 / span 1 / span 1;
+    overflow-y: scroll;
     /*grid-template: repeat(9, 1fr) / repeat(20, 1fr);*/
 }
+
+
+
 /* i would like this to be looped
 .beatrows{
   grid-template: 1fr / repeat(20, 1fr);
@@ -99,5 +137,7 @@
   display: inline-block;
   height: 50px;
   width: 50px;
-  padding: 2px 2px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin: 2px 2px;
 }

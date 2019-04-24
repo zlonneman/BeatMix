@@ -7,43 +7,17 @@
 
 <body>
     <div id=mainpage class="main grid">
-        <div class="box topbar">This is the top bar</div>
-        <div class="box leftbar">This is the left bar</div>
-        <div id=center class="box center">
-            <!--
-            <div id=beatbuttons-row1 class="grid beatrows">
-                <input id=button-col1 class=rowbuttons type="button" onclick="turnOn()"></input>
-                <input id=button-col2 class=rowbuttons type="button" onclick="turnOn()"></input>
-                <input id=button-col3 class=rowbuttons type="button" onclick="turnOn()"></input>
-                <input id=button-col4 class=rowbuttons type="button" onclick="turnOn()"></input>
-            </div>
-            <div id=beatbuttons-row2 class="grid beatrows">
-                <input id=button-col1 class=rowbuttons type="button" onclick="turnOn()"></input>
-                <input id=button-col2 class=rowbuttons type="button" onclick="turnOn()"></input>
-                <input id=button-col3 class=rowbuttons type="button" onclick="turnOn()"></input>
-                <input id=button-col4 class=rowbuttons type="button" onclick="turnOn()"></input>
-            </div>
-        -->
-            <script>let x = 1;</script>
-            <input id=soundbutton type="button" onclick="makeButtons(x)" class="newsoundbutton" value="New Sound!">
+        <div id=topbar class="box topbar">This is the top bar</div>
+        <div class="box leftbar">
+            <script>let rowCount = 1;</script>
+            <input id=soundbutton type="button" onclick="makeBeat(rowCount)" id="newsoundbutton" class="newsoundbutton"
+                value="New Sound!">
+            <input id=likebutton type="button" onclick="keepBeat()" id="likebutton" class="likebutton" value="Like!">
+            <input id=dislikebutton type="button" onclick="deleteBeat()" id="dislikebutton" class="dislikebutton" value="Dislike!">
             <script src="script.js"></script>
-
-            <!--
-            <input id=playbutton type="button" onclick="changePlayButton()" class="playbutton" value=">">
-            <script>
-                function changePlayButton() {
-                    if (document.getElementById("playbutton").value === ">") {
-                        document.getElementById("playbutton").value = "||";
-                    } else {
-                        document.getElementById("playbutton").value = ">";
-                    }
-                }
-            </script>
-        -->
         </div>
-        <div class="box bottombar">
-            
-        </div>
+        <div id=center class="box center"></div>
+        <div class="box bottombar"></div>
        
         
     </div>

@@ -1,8 +1,10 @@
 
 
 
-function makeButtons(row) {
+function makeBeat(row) {
+    
     if (row <= 16){
+        let randNum = Math.ceil(Math.random() * 9);
         let i = 1;
         let centerbox = document.getElementById("center");
         let newDiv = document.createElement("div");
@@ -10,13 +12,93 @@ function makeButtons(row) {
         newDiv.class = "beatrows";
         centerbox.appendChild(newDiv);
         let beatrows = document.getElementById("beatbuttons-row" + row);
+        addImage(randNum, row);
         for (i; i <= 16; i++) {
+            
             let button = document.createElement("button");
             button.classList.add("rowbutton");
-            button.id = "b" + i;
+            button.id = "r" + row + "c" + i;
+            button.style.background = "black"; //tried changing this on style sheet but didn't work
+            button.onclick = function() {turnBeatOn(button.id, row)};
             beatrows.appendChild(button);  
         } 
-        return x = row + 1;
+        addRandomBeat(row, randNum);
+        //setNewSound("block");
+        //document.getElementById("likebutton").style.display = "block";
+        //document.getElementById("dislikebutton").style.display = "block";
+        return rowCount = row + 1;
     }
 }
 
+function turnBeatOn(whichBeatButton, row) {
+    let currentButton = document.getElementById(whichBeatButton);
+    let audio = document.getElementById("beat" + row);
+    if(currentButton.style.backgroundColor === "black"){
+        currentButton.style.backgroundColor = "rgb(100, 245, 255)";
+        audio.play();
+    } else {
+        currentButton.style.backgroundColor = "black";
+    };
+};
+
+function addRandomBeat(row, randNum){
+    
+    let audio = document.createElement("audio");
+    audio.alt = "beat" + row;
+    audio.id = "beat" + row;
+    audio.src = "beatsounds/audio-" + randNum + ".wav"
+    document.getElementById("beatbuttons-row" + row).appendChild(audio);
+    addRandomTempo(row);
+}
+function addRandomTempo(row){
+    let measure = [];
+    let fourCount = [];
+    for (let i = 1; i <= 4; i++) {
+        if (Math.random() < 0.50) {
+            measure.push(1);
+        } else {
+            measure.push(0);
+        };
+        if (Math.random() < 0.5) {
+            fourCount.push(1);
+        } else {
+            fourCount.push(0);
+        };
+    };
+    if (sumArr(measure) === 0 || sumArr(fourCount) === 0){
+        addRandomTempo(row);
+    } else {
+        for (let j = 0; j < 4; j++) {
+            if (measure[j] === 1) {
+                for (let x = 0; x < 4; x++) {
+                    if (fourCount[x] === 1) {
+                        turnBeatOn("r" + row + "c" + ((j * 4) + (x + 1)), row);
+                    };
+                };
+            };
+        };
+    };
+}
+function addImage(randNum, row) {
+    let img = document.createElement("img");
+    img.src = "beatsounds/audioimg-" + randNum + ".png";
+    img.alt = "audio" + row;
+    img.width = 50;
+    img.height = 25;
+    document.getElementById("beatbuttons-row" + row).appendChild(img);
+    return row;
+}
+function setNewSound(displayValue){
+    document.getElementById("newsoundbutton").style.display = displayValue;
+}
+function keepBeat(){
+    document.getElementById("newsoundbutton").style.display = "block"
+}
+
+function sumArr(arr){
+    sum = 0;
+    for (i = 0; i < arr.length; i++){
+        sum += arr[i];
+    }
+    return sum;
+}
