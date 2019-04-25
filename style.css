@@ -23,9 +23,9 @@
   margin: 8px 4px;
   cursor: pointer;
   display: block;
-  position: absolute;
-  top: 540px;
-  left: 3%;
+  position: relative;
+  top: 85%;
+  left: 38px;
 }
 
 .likebutton {
@@ -41,11 +41,11 @@
   cursor: pointer;
   display: none;
   position: absolute;
-  top: 540px;
-  left: 5%;
+  top: 535px;
+  left: 7.5%;
 }
 
-.dislikebutton {
+.dislikeButton {
   background-color: rgb(100, 245, 255);
   color: rgb(51, 48, 48);
   padding: 8px 8px;
@@ -58,8 +58,8 @@
   cursor: pointer;
   display: none;
   position: absolute;
-  top: 540px;
-  left: 1%;
+  top: 535px;
+  left: 1.5%;
 }
 
 
@@ -73,8 +73,12 @@
     position: relative;
 }
 
+#tempoRange {
+  direction: rtl;
+}
+
 .box {
-  background-color: rgb(70, 70, 70);
+  background-color: rgb(59, 59, 59);
   color: black;
   /* border-radius: 5px;
   border: 2px dodgerblue solid; */
@@ -130,9 +134,7 @@
 }
 
 */
-#b1 {
 
-}
 .rowbutton {
   display: inline-block;
   height: 50px;

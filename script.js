@@ -2,7 +2,6 @@
 
 
 function makeBeat(row) {
-    
     if (row <= 16){
         let randNum = Math.ceil(Math.random() * 9);
         let i = 1;
@@ -23,9 +22,9 @@ function makeBeat(row) {
             beatrows.appendChild(button);  
         } 
         addRandomBeat(row, randNum);
-        //setNewSound("block");
-        //document.getElementById("likebutton").style.display = "block";
-        //document.getElementById("dislikebutton").style.display = "block";
+        setNewSound("none");
+        $(".likebutton").css('display', 'block');
+        $(".dislikeButton").css('display', 'block');
         return rowCount = row + 1;
     }
 }
@@ -35,7 +34,7 @@ function turnBeatOn(whichBeatButton, row) {
     let audio = document.getElementById("beat" + row);
     if(currentButton.style.backgroundColor === "black"){
         currentButton.style.backgroundColor = "rgb(100, 245, 255)";
-        audio.play();
+        audio.play(); //add this to my settime out func
     } else {
         currentButton.style.backgroundColor = "black";
     };
@@ -89,10 +88,26 @@ function addImage(randNum, row) {
     return row;
 }
 function setNewSound(displayValue){
-    document.getElementById("newsoundbutton").style.display = displayValue;
+    $(".newsoundbutton").css('display', displayValue);
 }
 function keepBeat(){
-    document.getElementById("newsoundbutton").style.display = "block"
+    $(".newsoundbutton").css('display', 'block');
+    $(".likebutton").css('display', 'none');
+    $(".dislikeButton").css('display', 'none');
+}
+function deleteBeat(row){
+    row -= 1;
+    document.getElementById("beatbuttons-row" + row).remove();
+    $(".newsoundbutton").css('display', 'block');
+    $(".likebutton").css('display', 'none');
+    $(".dislikeButton").css('display', 'none');
+    return rowCount = row;
+}
+setInterval(runSound(), (1000 * document.getElementById("tempoRange").value))
+function runSound(){
+    for (let pos = 0; pos < 16; pos++) {
+        setInterval()
+    }
 }
 
 function sumArr(arr){

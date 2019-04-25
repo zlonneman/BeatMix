@@ -2,22 +2,26 @@
 <html>
 
 <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <link rel='stylesheet' type='text/css' href='style.css'>
+    <script>let rowCount = 1;</script>
+    <script src="script.js"></script>
 </head>
 
 <body>
     <div id=mainpage class="main grid">
         <div id=topbar class="box topbar">This is the top bar</div>
         <div class="box leftbar">
-            <script>let rowCount = 1;</script>
             <input id=soundbutton type="button" onclick="makeBeat(rowCount)" id="newsoundbutton" class="newsoundbutton"
                 value="New Sound!">
             <input id=likebutton type="button" onclick="keepBeat()" id="likebutton" class="likebutton" value="Like!">
-            <input id=dislikebutton type="button" onclick="deleteBeat()" id="dislikebutton" class="dislikebutton" value="Dislike!">
-            <script src="script.js"></script>
+            <input id=dislikeButton type="button" onclick="deleteBeat(rowCount)" id="dislikeButton" class="dislikeButton" value="Dislike!">
         </div>
         <div id=center class="box center"></div>
-        <div class="box bottombar"></div>
+        <div class="box bottombar">
+            <input type="range" min="1" max="8" value="4" class="slider" id="tempoRange">
+            
+        </div>
        
         
     </div>
