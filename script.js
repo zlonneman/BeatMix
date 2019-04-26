@@ -1,6 +1,5 @@
 
 
-
 function makeBeat(row) {
     if (row <= 16){
         let randNum = Math.ceil(Math.random() * 9);
@@ -17,6 +16,7 @@ function makeBeat(row) {
             let button = document.createElement("button");
             button.classList.add("rowbutton");
             button.id = "r" + row + "c" + i;
+            button.value = "false"
             button.style.background = "black"; //tried changing this on style sheet but didn't work
             button.onclick = function() {turnBeatOn(button.id, row)};
             beatrows.appendChild(button);  
@@ -32,11 +32,13 @@ function makeBeat(row) {
 function turnBeatOn(whichBeatButton, row) {
     let currentButton = document.getElementById(whichBeatButton);
     let audio = document.getElementById("beat" + row);
-    if(currentButton.style.backgroundColor === "black"){
+    if(currentButton.value === "false"){
         currentButton.style.backgroundColor = "rgb(100, 245, 255)";
-        audio.play(); //add this to my settime out func
+        currentButton.value = "true"
+        //audio.play(); //add this to my settime out func
     } else {
         currentButton.style.backgroundColor = "black";
+        currentButton.value = "false"
     };
 };
 
@@ -72,6 +74,7 @@ function addRandomTempo(row){
                 for (let x = 0; x < 4; x++) {
                     if (fourCount[x] === 1) {
                         turnBeatOn("r" + row + "c" + ((j * 4) + (x + 1)), row);
+                        
                     };
                 };
             };
@@ -103,12 +106,33 @@ function deleteBeat(row){
     $(".dislikeButton").css('display', 'none');
     return rowCount = row;
 }
-setInterval(runSound(), (1000 * document.getElementById("tempoRange").value))
+
 function runSound(){
-    for (let pos = 0; pos < 16; pos++) {
-        setInterval()
+    let row = rowCount;
+    let tempo = document.getElementById("tempoRange").value;
+    for (let r = 1; r <= row; r++){
+        for (let pos = 0; pos < 16; pos++) {
+            playBeatsInColumn(r, (pos + 1), tempo);
+        }
     }
 }
+function playBeatsInColumn(row, col, tempo){
+    let interval = ((col - 1) / tempo) * 1000;
+    if (document.getElementById("r" + row + "c" + col).value ===  "true"){
+        let sound = document.getElementById("beat" + row);
+        sound.preload = 'auto';
+        sound.load();
+        let cloneSound = sound.cloneNode();
+        setTimeout(async function() {
+            cloneSound.play();
+        }, interval);
+    }
+}
+
+async function playSound(row) {
+    document.getElementById("beat" + row).play();
+}
+
 
 function sumArr(arr){
     sum = 0;
@@ -117,3 +141,5 @@ function sumArr(arr){
     }
     return sum;
 }
+
+
