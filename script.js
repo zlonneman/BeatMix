@@ -1,10 +1,9 @@
 
-
+let myLoop;
+myLoop = playLoop();
 function makeBeat(row) {
     if (row <= 16){
-        if (row === 1){
-            playLoop();
-        }
+        
         let beatType = determineBeatType();
         let i = 1;
         let centerbox = document.getElementById("center");
@@ -28,10 +27,11 @@ function makeBeat(row) {
         setNewSound("none");
         $(".likebutton").css('display', 'block');
         $(".dislikeButton").css('display', 'block');
+        
         return rowCount = row + 1;
     }
 }
-
+//make this scaleable
 function determineBeatType(){
     let randNum = Math.ceil(Math.random() * 126);
     let beatType = "";
@@ -64,7 +64,7 @@ function turnBeatOn(whichBeatButton, row) {
         currentButton.value = "false"
     };
 };
-
+//make scaleable
 function addRandomBeat(row, beatType){
     let audio = document.createElement("audio");
     audio.alt = "beat" + row;
@@ -156,21 +156,18 @@ function keepBeat(){
 function deleteBeat(row){
     row -= 1;
     document.getElementById("beatbuttons-row" + row).remove();
-    $(".newsoundbutton").css('display', 'block');
-    $(".likebutton").css('display', 'none');
-    $(".dislikeButton").css('display', 'none');
-    return rowCount = row;
+    makeBeat(row);
+    
 }
-let myLoop;
+
 async function playLoop(){
-    let row = rowCount - 1;
+    
     //let tempo = document.getElementById("tempoRange").value;
     let tempoMarker = 0;
     let pace;
     myLoop = setInterval(async function () {
-
+        let row = rowCount - 1;
         for (let r = 1; r <= row; r++) {
-
             if (document.getElementById("r" + r + "c" + (tempoMarker + 1)).value === "true") {
                 let sound = document.getElementById("beat" + r);
                 sound.preload = 'auto';
@@ -194,7 +191,7 @@ function playPause() {
         clearInterval(myLoop);
     } else {
         document.getElementById("playButton").value = "Pause"
-        playLoop();
+        myLoop = playLoop();
     }
 
 }
