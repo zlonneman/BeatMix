@@ -2,6 +2,9 @@
 
 function makeBeat(row) {
     if (row <= 16){
+        if (row === 1){
+            playLoop();
+        }
         let beatType = determineBeatType();
         let i = 1;
         let centerbox = document.getElementById("center");
@@ -25,7 +28,6 @@ function makeBeat(row) {
         setNewSound("none");
         $(".likebutton").css('display', 'block');
         $(".dislikeButton").css('display', 'block');
-        
         return rowCount = row + 1;
     }
 }
@@ -160,6 +162,7 @@ function deleteBeat(row){
     return rowCount = row;
 }
 let myLoop;
+let myTimeout;
 async function playLoop(){
     let row = rowCount;
     let tempo = document.getElementById("tempoRange").value;
@@ -177,21 +180,18 @@ async function playLoop(){
             sound.preload = 'auto';
             sound.load();
             let cloneSound = sound.cloneNode();
-            setTimeout(async function() {
+            myTimeout = setTimeout(async function() {
                 cloneSound.play();
             }, interval);
         }
     }
 }
 
-async function playSound(row) {
-    document.getElementById("beat" + row).play();
-}
-
 function playPause() {
     if (document.getElementById("playButton").value === "Pause"){
         document.getElementById("playButton").value = "Play";
         clearInterval(myLoop);
+        clearTimeout(myTimeout);
     } else {
         document.getElementById("playButton").value = "Pause"
         playLoop();
