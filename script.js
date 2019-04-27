@@ -162,36 +162,36 @@ function deleteBeat(row){
     return rowCount = row;
 }
 let myLoop;
-let myTimeout;
 async function playLoop(){
-    let row = rowCount;
-    let tempo = document.getElementById("tempoRange").value;
-    myLoop = setInterval(async function(){
-        for (let r = 1; r <= row; r++){
-            for (let pos = 0; pos < 16; pos++) {
-                playBeatsInColumn(r, (pos + 1), tempo);
-            }
-        }
-    }, tempo * 1000);   
-    function playBeatsInColumn(row, col, tempo){
-        let interval = ((col - 1) / (16 / tempo) * 1000);
-        if (document.getElementById("r" + row + "c" + col).value ===  "true"){
-            let sound = document.getElementById("beat" + row);
-            sound.preload = 'auto';
-            sound.load();
-            let cloneSound = sound.cloneNode();
-            myTimeout = setTimeout(async function() {
+    let row = rowCount - 1;
+    //let tempo = document.getElementById("tempoRange").value;
+    let tempoMarker = 0;
+    let pace;
+    myLoop = setInterval(async function () {
+
+        for (let r = 1; r <= row; r++) {
+
+            if (document.getElementById("r" + r + "c" + (tempoMarker + 1)).value === "true") {
+                let sound = document.getElementById("beat" + r);
+                sound.preload = 'auto';
+                sound.load();
+                let cloneSound = sound.cloneNode();
                 cloneSound.play();
-            }, interval);
-        }
-    }
+            };
+        };
+        if (tempoMarker < 15) {
+            tempoMarker = tempoMarker + 1;
+        } else {
+            tempoMarker = 0;
+        };
+    }, 250); // ill need to change this
+    
 }
 
 function playPause() {
     if (document.getElementById("playButton").value === "Pause"){
         document.getElementById("playButton").value = "Play";
         clearInterval(myLoop);
-        clearTimeout(myTimeout);
     } else {
         document.getElementById("playButton").value = "Pause"
         playLoop();
