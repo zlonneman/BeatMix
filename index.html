@@ -12,22 +12,22 @@
 
 <body>
     
-    <div id=mainpage class="main grid">
-        <div id=topbar class="box topbar">
+    <div id="mainpage" class="main grid">
+        <div id="topbar" class="box topbar">
             <h1>BeatMix</h1>
-            <input type="button" id="logIn" class=logInButton value="Log In"></input>
-            <input type="button" id="signUp" class=logInButton value="Sign Up"></input>
+            <input type="button" id="logIn" class="logInButton" value="Log In"></input>
+            <input type="button" id="signUp" class="logInButton" value="Sign Up"></input>
         </div>
         <div class="box leftbar">
-            <input id=soundbutton type="button" onclick="makeBeat(rowCount)" id="newsoundbutton" class="newsoundbutton"
+            <input type="button" onclick="makeBeat(rowCount)" id="newsoundbutton" class="newsoundbutton"
                 value="New Sound!">
-            <input id=likebutton type="button" onclick="keepBeat()" id="likebutton" class="like likebutton" value="Like!">
-            <input id=dislikeButton type="button" onclick="deleteBeat(rowCount)" id="dislikeButton" class="dis likeButton" value="Dislike!">
+            <input type="button" onclick="keepBeat()" id="likeButton" class="like likeButton" value="Like!">
+            <input type="button" onclick="deleteBeat(rowCount)" id="dislikeButton" class="likeButton dis" value="Dislike!">
         </div>
-        <div id=center class="box center"></div>
+        <div id="center" class="box center"></div>
         <div class="box bottombar">
-            <input type="range" min="1" max="8" value="4" class="slider" id="tempoRange" onc    hange="tempoChange()">
-            <input id=playButton type="button" onclick="playPause()" id="playButton" class="playButton"
+            <input type="range" min="1" max="8" value="4" class="slider" id="tempoRange" onchange="tempoChange()">
+            <input type="button" onclick="playPause()" id="playButton" class="playButton"
                 value="Pause">
         </div>
         

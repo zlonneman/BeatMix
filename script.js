@@ -24,8 +24,15 @@ function makeBeat(row) {
         } 
         addRandomBeat(row, beatType);
         setNewSound("none");
-        $(".likebutton").css('display', 'block');
-        $(".dislikeButton").css('display', 'block');
+        $(".likeButton").css('display', 'block');
+        let playButton = document.createElement("button");
+        playButton.classList.add("playPauseRow");
+        playButton.classList.add("playButton");
+        playButton.id = "playPauseRow" + row;
+        playButton.onclick = function() {playPauseRow(this.id, this.value)}; // not sure why I need to state function..
+        playButton.value = "Pause";
+        beatrows.appendChild(playButton);
+        
         if (row === 1){
             playLoop();
         };
@@ -58,7 +65,7 @@ function determineBeatType(){
 function turnBeatOn(whichBeatButton, row) {
     let currentButton = document.getElementById(whichBeatButton);
     if(currentButton.value === "false"){
-        currentButton.style.backgroundColor = "rgb(100, 245, 255)";
+        currentButton.style.backgroundColor = "aqua";
         currentButton.value = "true"
     } else {
         currentButton.style.backgroundColor = "black";
@@ -150,9 +157,15 @@ function setNewSound(displayValue){
 }
 
 function keepBeat(){
+    let row = rowCount - 1;
     $(".newsoundbutton").css('display', 'block');
-    $(".likebutton").css('display', 'none');
-    $(".dislikeButton").css('display', 'none');
+    $(".likeButton").css('display', 'none');
+    let trashButton = document.createElement("button");
+    trashButton.classList.add("trashButton");
+    trashButton.id = "trashButton" + row;
+    trashButton.value = row;
+    trashButton.onclick = function () { trashRow(this.value) }; // not sure why I need to state function..
+    document.getElementById("beatbuttons-row" + row).appendChild(trashButton);
 }
 function deleteBeat(row){
     row -= 1;
@@ -162,6 +175,12 @@ function deleteBeat(row){
     document.getElementById("beatbuttons-row" + row).remove();
     makeBeat(row);
     
+} 
+
+function trashRow(value) {
+    document.getElementById("beatbuttons-row" + value).remove();
+    clearInterval(myLoop);
+    playLoop();
 }
 
 async function playLoop(){
@@ -171,34 +190,53 @@ async function playLoop(){
     myLoop = setInterval(async function () {
         let row = rowCount - 1;
         for (let r = 1; r <= row; r++) {
-            if (document.getElementById("r" + r + "c" + (tempoMarker + 1)).value === "true") {
-                let sound = document.getElementById("beat" + r);
-                sound.preload = 'auto';
-                sound.load();
-                let cloneSound = sound.cloneNode();
-                cloneSound.play();
-            };
+            let myDiv = document.getElementById("beatbuttons-row" + r);
+            if(myDiv){
+                //set an if statement to say if the row is paused or played
+                if (document.getElementById("playPauseRow" + r).value === "Pause"){
+                    if (document.getElementById("r" + r + "c" + (tempoMarker + 1)).value === "true") {
+                        let sound = document.getElementById("beat" + r);
+                        sound.preload = 'auto';
+                        sound.load();
+                        let cloneSound = sound.cloneNode();
+                        cloneSound.play();
+                    }
+                }
+            }
         };
         if (tempoMarker < 15) {
             tempoMarker = tempoMarker + 1;
         } else {
             tempoMarker = 0;
         };
-    }, (1000 / tempo)); // ill need to change this
+    }, (1000 / tempo)); 
     return myLoop
     
 }
 
 function playPause() {
-    if (document.getElementById("playButton").value === "Pause"){
-        document.getElementById("playButton").value = "Play";
-        clearInterval(myLoop);
-    } else {
-        document.getElementById("playButton").value = "Pause"
-        playLoop();
+    if (rowCount != 1) {
+        if (document.getElementById("playButton").value === "Pause"){
+            document.getElementById("playButton").value = "Play";
+            clearInterval(myLoop);
+        } else {
+            document.getElementById("playButton").value = "Pause"
+            playLoop();
+        }
     }
+}
+
+function playPauseRow(clickedID, clickedValue){
+    if (clickedValue === "Pause") {
+        document.getElementById(clickedID).value = "Play";
+    } else {
+        document.getElementById(clickedID).value = "Pause";
+    }
+    clearInterval(myLoop);
+    playLoop();
 
 }
+
 function tempoChange() {
     clearInterval(myLoop);
     playLoop();
