@@ -142,6 +142,7 @@ function addImage(imgName, row) {
     let img = document.createElement("img");
     img.src = imgName + ".png";
     img.alt = "audio" + row;
+    img.classList.add("beatImages");
     img.style.position = "relative";
     img.style.top = "2px";
     img.style.left = "1px";
@@ -165,7 +166,7 @@ function keepBeat(){
     trashButton.id = "trashButton" + row;
     trashButton.value = row;
     trashButton.onclick = function () { trashRow(this.value) }; // not sure why I need to state function..
-    document.getElementById("beatbuttons-row" + row).appendChild(trashButton);
+    document.getElementById("beatbuttons-row" + row)    .appendChild(trashButton);
 }
 function deleteBeat(row){
     row -= 1;
