@@ -5,7 +5,6 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <link href="https://fonts.googleapis.com/css?family=ZCOOL+KuaiLe" rel="stylesheet">
     <link rel='stylesheet' type='text/css' href='style.css'>
-
     <script>let rowCount = 1;</script>
     <script src="script.js"></script>
 </head>
@@ -18,7 +17,101 @@
             <input type="button" id="logIn" class="logInButton" value="Log In"></input>
             <input type="button" id="signUp" class="logInButton" value="Sign Up"></input>
         </div>
-        <div class="box leftbar">
+        <div id="leftBar" class="box leftbar">
+            <button id="dropdownClap" name="Clap" class="dropdown-btn">Clap
+                <i class="fa-caret-down"></i>
+            </button>
+            <div id="clapContainer" class="dropdown-container">
+
+            </div>
+            <button id="dropdownKick" class="dropdown-btn">Kick
+                <i class="fa-caret-down"></i>
+            </button>
+            <div class="dropdown-container">
+                <button id="Kick/kick1.wav" class="sideBarSound" onclick=playSound(this.id)>KICK 1</button>
+                <button id="Kick/kick2.wav" class="sideBarSound" onclick=playSound(this.id)>KICK 2</button>
+                <button id="Kick/kick3.wav" class="sideBarSound" onclick=playSound(this.id)>KICK 3</button>
+                <button id="Kick/kick4.wav" class="sideBarSound" onclick=playSound(this.id)>KICK 4</button>
+                <button id="Kick/kick5.wav" class="sideBarSound" onclick=playSound(this.id)>KICK 5</button>
+                <button id="Kick/kick6.wav" class="sideBarSound" onclick=playSound(this.id)>KICK 6</button>
+                <button id="Kick/kick7.wav" class="sideBarSound" onclick=playSound(this.id)>KICK 7</button>
+                <button id="Kick/kick8.wav" class="sideBarSound" onclick=playSound(this.id)>KICK 8</button>
+                <button id="Kick/kick9.wav" class="sideBarSound" onclick=playSound(this.id)>KICK 9</button>
+                <button id="Kick/kick10.wav" class="sideBarSound" onclick=playSound(this.id)>KICK 10</button>
+                <button id="Kick/kick11.wav" class="sideBarSound" onclick=playSound(this.id)>KICK 11</button>
+                <button id="Kick/kick12.wav" class="sideBarSound" onclick=playSound(this.id)>KICK 12</button>
+                <button id="Kick/kick13.wav" class="sideBarSound" onclick=playSound(this.id)>KICK 13</button>
+                <button id="Kick/kick14.wav" class="sideBarSound" onclick=playSound(this.id)>KICK 14</button>
+                <button id="Kick/kick15.wav" class="sideBarSound" onclick=playSound(this.id)>KICK 15</button>
+                <button id="Kick/kick16.wav" class="sideBarSound" onclick=playSound(this.id)>KICK 16</button>
+                <button id="Kick/kick17.wav" class="sideBarSound" onclick=playSound(this.id)>KICK 17</button>
+                
+            </div>
+            <button id="dropdownPercussion" class="dropdown-btn">Percussion
+                <i class="fa-caret-down"></i>
+            </button>
+            <div class="dropdown-container">
+                <a href="#">Link 1</a>
+                <a href="#">Link 2</a>
+                <a href="#">Link 3</a>
+            </div>
+            <button id="dropdownQuestion" class="dropdown-btn">Question
+                <i class="fa-caret-down"></i>
+            </button>
+            <div class="dropdown-container">
+                <a href="#">Link 1</a>
+                <a href="#">Link 2</a>
+                <a href="#">Link 3</a>
+            </div>
+            <button id="dropdownRobot" class="dropdown-btn">Robot
+                <i class="fa-caret-down"></i>
+            </button>
+            <div class="dropdown-container">
+                <a href="#">Link 1</a>
+                <a href="#">Link 2</a>
+                <a href="#">Link 3</a>
+            </div>
+            <button id="dropdownSnare" class="dropdown-btn">Snare
+                <i class="fa-caret-down"></i>
+            </button>
+            <div class="dropdown-container">
+                <a href="#">Link 1</a>
+                <a href="#">Link 2</a>
+                <a href="#">Link 3</a>
+            </div>
+            <button id="dropdownVoice" class="dropdown-btn">Vocal
+                <i class="fa-caret-down"></i>
+            </button>
+            <div class="dropdown-container">
+                <a href="#">Link 1</a>
+                <a href="#">Link 2</a>
+                <a href="#">Link 3</a>
+            </div>
+            <button id="dropdownWind" class="dropdown-btn">Horn
+                <i class="fa-caret-down"></i>
+            </button>
+            <div class="dropdown-container">
+                <a href="#">Link 1</a>
+                <a href="#">Link 2</a>
+                <a href="#">Link 3</a>
+            </div>
+            <script>
+                let dropdown = document.getElementsByClassName("dropdown-btn");
+                let countDropdown;
+                for (countDropdown = 0; countDropdown < dropdown.length; countDropdown++) {
+                    dropdown[countDropdown].addEventListener("click", function () {
+                        //this.classList.toggle("active");
+                        let dropdownContent = this.nextElementSibling;
+                        if (dropdownContent.style.display === "block") {
+                            dropdownContent.style.display = "none";
+                        } else {
+                            dropdownContent.style.display = "block";
+                        }
+                    });
+                }
+            </script>
+        </div>
+        <div class="box leftBottom">
             <input type="button" onclick="makeBeat(rowCount)" id="newsoundbutton" class="newsoundbutton"
                 value="New Sound!">
             <input type="button" onclick="keepBeat()" id="likeButton" class="like likeButton" value="Like!">

@@ -1,4 +1,14 @@
-
+let numClapBeats = 14;
+let numKickBeats = 17;
+let numPercussionBeats = 14;
+let numQuestionBeats = 18;
+let numRobotBeats = 13;
+let numSnareBeats = 28;
+let numVoiceBeats = 12;
+let numWindBeats = 9;
+let totalBeats = numWindBeats + numVoiceBeats + numRobotBeats + 
+                 numPercussionBeats + numClapBeats + numKickBeats + 
+                 numQuestionBeats + numSnareBeats;
 
 function makeBeat(row) {
     if (row <= 16){
@@ -41,21 +51,21 @@ function makeBeat(row) {
 }
 //make this scaleable
 function determineBeatType(){
-    let randNum = Math.ceil(Math.random() * 126);
+    let randNum = Math.ceil(Math.random() * totalBeats);
     let beatType = "";
-    if (randNum <= 9) {
+    if (randNum <= numWindBeats) {
         beatType = "wind";
-    } else if (randNum <= 21) {
+    } else if (randNum <= numWindBeats + numVoiceBeats) {
         beatType = "voice";
-    } else if (randNum <= 34) {
+    } else if (randNum <= numWindBeats + numVoiceBeats + numRobotBeats) {
         beatType = "robot";
-    } else if (randNum <= 48) {
+    } else if (randNum <= numWindBeats + numVoiceBeats + numRobotBeats + numPercussionBeats) {
         beatType = "percussion";
-    } else if (randNum <= 63) {
+    } else if (randNum <= numWindBeats + numVoiceBeats + numRobotBeats + numPercussionBeats + numClapBeats) {
         beatType = "clap";
-    } else if (randNum <= 80) {
+    } else if (randNum <= numWindBeats + numVoiceBeats + numRobotBeats + numPercussionBeats + numClapBeats + numKickBeats) {
         beatType = "kick";
-    } else if (randNum <= 98) {
+    } else if (randNum <= numWindBeats + numVoiceBeats + numRobotBeats + numPercussionBeats + numClapBeats + numKickBeats + numQuestionBeats) {
         beatType = "question";
     } else {
         beatType = "snare";
@@ -79,28 +89,28 @@ function addRandomBeat(row, beatType){
     audio.id = "beat" + row;
     let fileNum;
     if (beatType === "wind"){
-        fileNum = Math.ceil(Math.random() * 9);
+        fileNum = Math.ceil(Math.random() * numWindBeats);
         audio.src = "SampleSwap/HITS/Wind/wind" + fileNum + ".wav";
     } else if (beatType === "voice") {
-        fileNum = Math.ceil(Math.random() * 12);
+        fileNum = Math.ceil(Math.random() * numVoiceBeats);
         audio.src = "SampleSwap/HITS/Voice/voice" + fileNum + ".wav";
     } else if (beatType === "robot") {
-        fileNum = Math.ceil(Math.random() * 13);
+        fileNum = Math.ceil(Math.random() * numRobotBeats);
         audio.src = "SampleSwap/HITS/Robot/robot" + fileNum + ".wav";
     } else if (beatType === "percussion") {
-        fileNum = Math.ceil(Math.random() * 14);
+        fileNum = Math.ceil(Math.random() * numPercussionBeats);
         audio.src = "SampleSwap/HITS/Percussion/percussion" + fileNum + ".wav";
     } else if (beatType === "clap") {
-        fileNum = Math.ceil(Math.random() * 15);
+        fileNum = Math.ceil(Math.random() * numClapBeats);
         audio.src = "SampleSwap/HITS/Clap/clap" + fileNum + ".wav";
     } else if (beatType === "kick") {
-        fileNum = Math.ceil(Math.random() * 17);
+        fileNum = Math.ceil(Math.random() * numKickBeats);
         audio.src = "SampleSwap/HITS/Kick/kick" + fileNum + ".wav";
     } else if (beatType === "question") {
-        fileNum = Math.ceil(Math.random() * 18);
+        fileNum = Math.ceil(Math.random() * numQuestionBeats);
         audio.src = "SampleSwap/HITS/Question/question" + fileNum + ".wav";
     } else {
-        fileNum = Math.ceil(Math.random() * 28);
+        fileNum = Math.ceil(Math.random() * numSnareBeats);
         audio.src = "SampleSwap/HITS/Snare/snare" + fileNum + ".wav";
     }
     document.getElementById("beatbuttons-row" + row).appendChild(audio);
@@ -143,10 +153,6 @@ function addImage(imgName, row) {
     img.src = imgName + ".png";
     img.alt = "audio" + row;
     img.classList.add("beatImages");
-    img.style.position = "relative";
-    img.style.top = "2px";
-    img.style.left = "1px";
-    img.style.padding ="5px 5px";
     img.width = 40;
     img.height = 40;
     document.getElementById("beatbuttons-row" + row).appendChild(img);
@@ -161,12 +167,16 @@ function keepBeat(){
     let row = rowCount - 1;
     $(".newsoundbutton").css('display', 'block');
     $(".likeButton").css('display', 'none');
-    let trashButton = document.createElement("button");
+    let trashButton = document.createElement("img");
+    trashButton.src = "trashBin.png";
     trashButton.classList.add("trashButton");
+    trashButton.classList.add("beatImages");
     trashButton.id = "trashButton" + row;
+    trashButton.width = 40;
+    trashButton.height = 40;
     trashButton.value = row;
     trashButton.onclick = function () { trashRow(this.value) }; // not sure why I need to state function..
-    document.getElementById("beatbuttons-row" + row)    .appendChild(trashButton);
+    document.getElementById("beatbuttons-row" + row).appendChild(trashButton);
 }
 function deleteBeat(row){
     row -= 1;
@@ -251,5 +261,31 @@ function sumArr(arr){
     }
     return sum;
 }
+function playSound(clickedID) {
+    let audio = document.createElement("audio");
+    audio.src = "SampleSwap/HITS/" + clickedID;
+    audio.play();
+}
 
-
+function addBeatsToDropdown() {
+    /*let leftBar = document.getElementById("leftBar");
+    let newDiv = document.createElement("div");
+    newDiv.id = "clapContainer";
+    newDiv.classList.add("dropdown-container");
+    leftBar.appendChild(newDiv);
+    let clapContainer = document.getElementById("clapContainer");*/
+    for (let i = 1; i <= numClapBeats; i++) {
+        let clapButton = document.createElement("button");
+        clapButton.id = "Clap/clap1.wav";
+        clapButton.classList.add("sideBarSound");
+        clapButton.onclick = function() {playSound(this.id)};
+        clapButton.innerHTML = "CLAP 1";
+        let clapContainer = document.getElementById("clapContainer");
+        alert("1");
+        clapContainer.appendChild(clapButton);
+        alert("2");
+        
+    }
+}
+addBeatsToDropdown();
+    
