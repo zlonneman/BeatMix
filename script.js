@@ -10,45 +10,55 @@ let totalBeats = numWindBeats + numVoiceBeats + numRobotBeats +
                  numPercussionBeats + numClapBeats + numKickBeats + 
                  numQuestionBeats + numSnareBeats;
 
-function makeBeat(row) {
-    if (row <= 16){
+
+function makeBeat(row, beatType, clickedID) {
+    beatType = beatType || determineBeatType();
+    let i = 1;
+    let centerbox = document.getElementById("center");
+    let newDiv = document.createElement("div");
+    newDiv.id = "beatbuttons-row" + row;
+    newDiv.class = "beatrows";
+    centerbox.appendChild(newDiv);
+    let beatrows = document.getElementById("beatbuttons-row" + row);
+    addImage(beatType, row);
+    for (i; i <= 16; i++) {
         
-        let beatType = determineBeatType();
-        let i = 1;
-        let centerbox = document.getElementById("center");
-        let newDiv = document.createElement("div");
-        newDiv.id = "beatbuttons-row" + row;
-        newDiv.class = "beatrows";
-        centerbox.appendChild(newDiv);
-        let beatrows = document.getElementById("beatbuttons-row" + row);
-        addImage(beatType, row);
-        for (i; i <= 16; i++) {
-            
-            let button = document.createElement("button");
-            button.classList.add("rowbutton");
-            button.id = "r" + row + "c" + i;
-            button.value = "false"
-            button.style.background = "black"; //tried changing this on style sheet but didn't work
-            button.onclick = function() {turnBeatOn(button.id, row)};
-            beatrows.appendChild(button);  
-        } 
+        let button = document.createElement("button");
+        button.classList.add("rowbutton");
+        button.id = "r" + row + "c" + i;
+        button.value = "false"
+        button.style.background = "black"; //tried changing this on style sheet but didn't work
+        button.onclick = function() {turnBeatOn(button.id, row)};
+        beatrows.appendChild(button);  
+    } 
+    if (clickedID === undefined) {
         addRandomBeat(row, beatType);
         setNewSound("none");
         $(".likeButton").css('display', 'block');
-        let playButton = document.createElement("button");
-        playButton.classList.add("playPauseRow");
-        playButton.classList.add("playButton");
-        playButton.id = "playPauseRow" + row;
-        playButton.onclick = function() {playPauseRow(this.id, this.value)}; // not sure why I need to state function..
-        playButton.value = "Pause";
-        beatrows.appendChild(playButton);
-        
-        if (row === 1){
-            playLoop();
-        };
-        return rowCount = row + 1;
+    } else {
+        createTrashButton(row);
+        let audio = document.createElement("audio");
+        audio.alt = "beat" + row;
+        audio.id = "beat" + row;
+        audio.src = "SampleSwap/HITS/" + clickedID;
+        document.getElementById("beatbuttons-row" + row).appendChild(audio);
     }
+    let playButton = document.createElement("button");
+    playButton.classList.add("playPauseRow");
+    playButton.classList.add("playButton");
+    playButton.id = "playPauseRow" + row;
+    playButton.value = "Pause";
+    playButton.innerHTML = "Pause";
+    playButton.onclick = function () { playPauseRow(this.id) }; // not sure why I need to state function..
+    beatrows.appendChild(playButton);
+    
+    if (row === 1){
+        playLoop();
+    };
+    return rowCount = row + 1;
+
 }
+
 //make this scaleable
 function determineBeatType(){
     let randNum = Math.ceil(Math.random() * totalBeats);
@@ -163,10 +173,8 @@ function setNewSound(displayValue){
     $(".newsoundbutton").css('display', displayValue);
 }
 
-function keepBeat(){
-    let row = rowCount - 1;
-    $(".newsoundbutton").css('display', 'block');
-    $(".likeButton").css('display', 'none');
+function createTrashButton(row) {
+    row = row || rowCount - 1;
     let trashButton = document.createElement("img");
     trashButton.src = "trashBin.png";
     trashButton.classList.add("trashButton");
@@ -177,6 +185,12 @@ function keepBeat(){
     trashButton.value = row;
     trashButton.onclick = function () { trashRow(this.value) }; // not sure why I need to state function..
     document.getElementById("beatbuttons-row" + row).appendChild(trashButton);
+}
+
+function keepBeat(){
+    $(".newsoundbutton").css('display', 'block');
+    $(".likeButton").css('display', 'none');
+    createTrashButton();
 }
 function deleteBeat(row){
     row -= 1;
@@ -237,11 +251,15 @@ function playPause() {
     }
 }
 
-function playPauseRow(clickedID, clickedValue){
-    if (clickedValue === "Pause") {
-        document.getElementById(clickedID).value = "Play";
+function playPauseRow(clickedID,){
+    let button = document.getElementById(clickedID);
+    if (button.innerHTML === "Pause") {
+        button.value = "Play";
+        button.innerHTML = "Play";
+
     } else {
-        document.getElementById(clickedID).value = "Pause";
+        button.value = "play";
+        button.innerHTML = "Pause";
     }
     clearInterval(myLoop);
     playLoop();
@@ -261,31 +279,115 @@ function sumArr(arr){
     }
     return sum;
 }
+
 function playSound(clickedID) {
     let audio = document.createElement("audio");
     audio.src = "SampleSwap/HITS/" + clickedID;
     audio.play();
 }
+try {
+    function addBeatsToDropdown() {
+        for (let i = 1; i <= numClapBeats; i++) {
 
-function addBeatsToDropdown() {
-    /*let leftBar = document.getElementById("leftBar");
-    let newDiv = document.createElement("div");
-    newDiv.id = "clapContainer";
-    newDiv.classList.add("dropdown-container");
-    leftBar.appendChild(newDiv);
-    let clapContainer = document.getElementById("clapContainer");*/
-    for (let i = 1; i <= numClapBeats; i++) {
-        let clapButton = document.createElement("button");
-        clapButton.id = "Clap/clap1.wav";
-        clapButton.classList.add("sideBarSound");
-        clapButton.onclick = function() {playSound(this.id)};
-        clapButton.innerHTML = "CLAP 1";
-        let clapContainer = document.getElementById("clapContainer");
-        alert("1");
-        clapContainer.appendChild(clapButton);
-        alert("2");
-        
+            let clapContainer = document.getElementById("clapContainer");
+            let clapButton = document.createElement("button");
+            clapButton.id = "Clap/clap" + i + ".wav";
+            clapButton.classList.add("sideBarSound");
+            clapButton.onclick = function() {playSound(this.id, "clap")};
+            clapButton.ondblclick = function() {makeBeat(rowCount, "clap", this.id)}
+            clapButton.innerHTML = "Clap " + i;
+            clapContainer.appendChild(clapButton);
+        }
+        for (let i = 1; i <= numKickBeats; i++) {
+            let kickContainer = document.getElementById("kickContainer");
+            let kickButton = document.createElement("button");
+            kickButton.id = "Kick/kick" + i + ".wav";
+            kickButton.classList.add("sideBarSound");
+            kickButton.onclick = function () { playSound(this.id) };
+            kickButton.ondblclick = function () { makeBeat(rowCount, "kick", this.id) }
+            kickButton.innerHTML = "Kick " + i;
+            kickContainer.appendChild(kickButton);
+        }
+        for (let i = 1; i <= numPercussionBeats; i++) {
+            let percussionContainer = document.getElementById("percussionContainer");
+            let percussionButton = document.createElement("button");
+            percussionButton.id = "Percussion/percussion" + i + ".wav";
+            percussionButton.classList.add("sideBarSound");
+            percussionButton.onclick = function () { playSound(this.id) };
+            percussionButton.ondblclick = function () { makeBeat(rowCount, "percussion", this.id) }
+            percussionButton.innerHTML = "Cymbal " + i;
+            percussionContainer.appendChild(percussionButton);
+        }
+        for (let i = 1; i <= numQuestionBeats; i++) {
+            let questionContainer = document.getElementById("questionContainer");
+            let questionButton = document.createElement("button");
+            questionButton.id = "Question/question" + i + ".wav";
+            questionButton.classList.add("sideBarSound");
+            questionButton.onclick = function () { playSound(this.id) };
+            questionButton.ondblclick = function () { makeBeat(rowCount, "question", this.id) }
+            questionButton.innerHTML = "Who Knows " + i;
+            questionContainer.appendChild(questionButton);
+        }
+        for (let i = 1; i <= numRobotBeats; i++) {
+            let robotContainer = document.getElementById("robotContainer");
+            let robotButton = document.createElement("button");
+            robotButton.id = "Robot/robot" + i + ".wav";
+            robotButton.classList.add("sideBarSound");
+            robotButton.onclick = function () { playSound(this.id) };
+            robotButton.ondblclick = function () { makeBeat(rowCount, "robot", this.id) }
+            robotButton.innerHTML = "Electric " + i;
+            robotContainer.appendChild(robotButton);
+        }
+        for (let i = 1; i <= numSnareBeats; i++) {
+            let snareContainer = document.getElementById("snareContainer");
+            let snareButton = document.createElement("button");
+            snareButton.id = "Snare/snare" + i + ".wav";
+            snareButton.classList.add("sideBarSound");
+            snareButton.onclick = function () { playSound(this.id) };
+            snareButton.ondblclick = function () { makeBeat(rowCount, "snare", this.id) }
+            snareButton.innerHTML = "Snare " + i;
+            snareContainer.appendChild(snareButton);
+        }
+        for (let i = 1; i <= numVoiceBeats; i++) {
+            let voiceContainer = document.getElementById("voiceContainer");
+            let voiceButton = document.createElement("button");
+            voiceButton.id = "Voice/voice" + i + ".wav";
+            voiceButton.classList.add("sideBarSound");
+            voiceButton.onclick = function () { playSound(this.id) };
+            voiceButton.ondblclick = function () { makeBeat(rowCount, "voice", this.id) }
+            voiceButton.innerHTML = "Vocal " + i;
+            voiceContainer.appendChild(voiceButton);
+        }
+        for (let i = 1; i <= numWindBeats; i++) {
+            let windContainer = document.getElementById("windContainer");
+            let windButton = document.createElement("button");
+            windButton.id = "Wind/wind" + i + ".wav";
+            windButton.classList.add("sideBarSound");
+            windButton.onclick = function () { playSound(this.id) };
+            windButton.ondblclick = function () { makeBeat(rowCount, "wind", this.id) }
+            windButton.innerHTML = "Horn " + i;
+            windContainer.appendChild(windButton);
+        }
     }
+}     
+catch(error){
+       console.error(error);
 }
 addBeatsToDropdown();
+
+function openSignUp() {
+    document.getElementById('signUpPage').style.display = 'block';
+}
+function closeSignUp() {
+    document.getElementById('signUpPage').style.display = 'none';
+}
+//this is supposed to close out of window if clicked elsewhere. 
+let modal = document.getElementById('signUpPage');
+window.onclick = function (event) {
+    if (event.target === modal) {
+        modal.style.display = "none";
+    }
+}   
+
+
     

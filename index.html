@@ -6,95 +6,90 @@
     <link href="https://fonts.googleapis.com/css?family=ZCOOL+KuaiLe" rel="stylesheet">
     <link rel='stylesheet' type='text/css' href='style.css'>
     <script>let rowCount = 1;</script>
-    <script src="script.js"></script>
 </head>
 
 <body>
+    <div id="signUpPage" class="modal">
+        <form class="modal-content" action="/action_page.php">
+            <div class="signUpContainer">
+                <h1>Sign Up</h1>
+                <p>Please fill in this form to create an account.</p>
+                <hr>
+                <label for="username"><b>Username</b></label>
+                <input type="text" placeholder="Enter Username" name="username" required>
+
+                <label for="email"><b>Email</b></label>
+                <input type="text" placeholder="Enter Email" name="email" required>
+    
+                <label for="psw"><b>Password</b></label>
+                <input type="password" placeholder="Enter Password" name="psw" required>
+    
+                <label for="psw-repeat"><b>Repeat Password</b></label>
+                <input type="password" placeholder="Repeat Password" name="psw-repeat" required>
+    
+                <label>
+                    <input type="checkbox" checked="checked" name="remember" style="margin-bottom:15px"> Remember me
+                </label>
+    
+                <p>By creating an account you agree to our <a href="#" style="color:dodgerblue">Terms & Privacy</a>.</p>
+    
+                <div class="clearfix">
+                    <button type="button" onclick="closeSignUp()" class="cancelbtn signUpButton">Cancel</button>
+                    <button type="submit" class="signupbtn signUpButton">Sign Up</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    
     
     <div id="mainpage" class="main grid">
         <div id="topbar" class="box topbar">
             <h1>BeatMix</h1>
             <input type="button" id="logIn" class="logInButton" value="Log In"></input>
-            <input type="button" id="signUp" class="logInButton" value="Sign Up"></input>
+            <input type="button" id="signUp" class="logInButton" 
+            onclick="openSignUp()" style="width:auto;" value="Sign Up"></input>
         </div>
         <div id="leftBar" class="box leftbar">
             <button id="dropdownClap" name="Clap" class="dropdown-btn">Clap
                 <i class="fa-caret-down"></i>
             </button>
-            <div id="clapContainer" class="dropdown-container">
+            <div id="clapContainer" class="dropdown-container"></div>
 
-            </div>
             <button id="dropdownKick" class="dropdown-btn">Kick
                 <i class="fa-caret-down"></i>
             </button>
-            <div class="dropdown-container">
-                <button id="Kick/kick1.wav" class="sideBarSound" onclick=playSound(this.id)>KICK 1</button>
-                <button id="Kick/kick2.wav" class="sideBarSound" onclick=playSound(this.id)>KICK 2</button>
-                <button id="Kick/kick3.wav" class="sideBarSound" onclick=playSound(this.id)>KICK 3</button>
-                <button id="Kick/kick4.wav" class="sideBarSound" onclick=playSound(this.id)>KICK 4</button>
-                <button id="Kick/kick5.wav" class="sideBarSound" onclick=playSound(this.id)>KICK 5</button>
-                <button id="Kick/kick6.wav" class="sideBarSound" onclick=playSound(this.id)>KICK 6</button>
-                <button id="Kick/kick7.wav" class="sideBarSound" onclick=playSound(this.id)>KICK 7</button>
-                <button id="Kick/kick8.wav" class="sideBarSound" onclick=playSound(this.id)>KICK 8</button>
-                <button id="Kick/kick9.wav" class="sideBarSound" onclick=playSound(this.id)>KICK 9</button>
-                <button id="Kick/kick10.wav" class="sideBarSound" onclick=playSound(this.id)>KICK 10</button>
-                <button id="Kick/kick11.wav" class="sideBarSound" onclick=playSound(this.id)>KICK 11</button>
-                <button id="Kick/kick12.wav" class="sideBarSound" onclick=playSound(this.id)>KICK 12</button>
-                <button id="Kick/kick13.wav" class="sideBarSound" onclick=playSound(this.id)>KICK 13</button>
-                <button id="Kick/kick14.wav" class="sideBarSound" onclick=playSound(this.id)>KICK 14</button>
-                <button id="Kick/kick15.wav" class="sideBarSound" onclick=playSound(this.id)>KICK 15</button>
-                <button id="Kick/kick16.wav" class="sideBarSound" onclick=playSound(this.id)>KICK 16</button>
-                <button id="Kick/kick17.wav" class="sideBarSound" onclick=playSound(this.id)>KICK 17</button>
-                
-            </div>
-            <button id="dropdownPercussion" class="dropdown-btn">Percussion
+            <div id="kickContainer" class="dropdown-container"> </div>
+
+            <button id="dropdownPercussion" class="dropdown-btn">Cymbals
                 <i class="fa-caret-down"></i>
             </button>
-            <div class="dropdown-container">
-                <a href="#">Link 1</a>
-                <a href="#">Link 2</a>
-                <a href="#">Link 3</a>
-            </div>
-            <button id="dropdownQuestion" class="dropdown-btn">Question
+            <div id="percussionContainer" class="dropdown-container"></div>
+
+            <button id="dropdownQuestion" class="dropdown-btn">Who Knows
                 <i class="fa-caret-down"></i>
             </button>
-            <div class="dropdown-container">
-                <a href="#">Link 1</a>
-                <a href="#">Link 2</a>
-                <a href="#">Link 3</a>
-            </div>
-            <button id="dropdownRobot" class="dropdown-btn">Robot
+            <div id="questionContainer" class="dropdown-container"> </div>
+
+            <button id="dropdownRobot" class="dropdown-btn">Electric
                 <i class="fa-caret-down"></i>
             </button>
-            <div class="dropdown-container">
-                <a href="#">Link 1</a>
-                <a href="#">Link 2</a>
-                <a href="#">Link 3</a>
-            </div>
+            <div id="robotContainer" class="dropdown-container"></div>
+
             <button id="dropdownSnare" class="dropdown-btn">Snare
                 <i class="fa-caret-down"></i>
             </button>
-            <div class="dropdown-container">
-                <a href="#">Link 1</a>
-                <a href="#">Link 2</a>
-                <a href="#">Link 3</a>
-            </div>
+            <div id="snareContainer" class="dropdown-container"></div>
+
             <button id="dropdownVoice" class="dropdown-btn">Vocal
                 <i class="fa-caret-down"></i>
             </button>
-            <div class="dropdown-container">
-                <a href="#">Link 1</a>
-                <a href="#">Link 2</a>
-                <a href="#">Link 3</a>
-            </div>
+            <div id="voiceContainer" class="dropdown-container"></div>
+
             <button id="dropdownWind" class="dropdown-btn">Horn
                 <i class="fa-caret-down"></i>
             </button>
-            <div class="dropdown-container">
-                <a href="#">Link 1</a>
-                <a href="#">Link 2</a>
-                <a href="#">Link 3</a>
-            </div>
+            <div id="windContainer" class="dropdown-container"></div>
+
             <script>
                 let dropdown = document.getElementsByClassName("dropdown-btn");
                 let countDropdown;
@@ -111,14 +106,14 @@
                 }
             </script>
         </div>
-        <div class="box leftBottom">
+        <div id="leftBottom" class="box leftBottom">
             <input type="button" onclick="makeBeat(rowCount)" id="newsoundbutton" class="newsoundbutton"
                 value="New Sound!">
             <input type="button" onclick="keepBeat()" id="likeButton" class="like likeButton" value="Like!">
             <input type="button" onclick="deleteBeat(rowCount)" id="dislikeButton" class="likeButton dis" value="Dislike!">
         </div>
         <div id="center" class="box center"></div>
-        <div class="box bottombar">
+        <div id="rightBottom" class="box bottombar">
             <input type="range" min="1" max="8" value="4" class="slider" id="tempoRange" onchange="tempoChange()">
             <input type="button" onclick="playPause()" id="playButton" class="playButton"
                 value="Pause">
@@ -126,4 +121,5 @@
         
     </div>
 </body>
+    <script src="script.js"></script>
 </html>
