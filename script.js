@@ -377,17 +377,19 @@ addBeatsToDropdown();
 
 function openSignUp() {
     document.getElementById('signUpPage').style.display = 'block';
+    document.getElementById("transparentScreen").style.display = "block";
 }
 function closeSignUp() {
     document.getElementById('signUpPage').style.display = 'none';
+    document.getElementById("transparentScreen").style.display = "none";
 }
-//this is supposed to close out of window if clicked elsewhere. 
-let modal = document.getElementById('signUpPage');
+//I'm not sure if I like this. 
+let screen = document.getElementById('transparentScreen');
 window.onclick = function (event) {
-    if (event.target === modal) {
-        modal.style.display = "none";
+    if (event.target === screen) {
+        screen.style.display = "none";
+        document.getElementById('signUpPage').style.display = 'none';
+        
     }
 }   
 
-
-    
