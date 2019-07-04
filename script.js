@@ -31,12 +31,12 @@ function makeBeat(row, beatType, clickedID) {
         button.onclick = function() {turnBeatOn(button.id, row)};
         beatrows.appendChild(button);  
     } 
+    createTrashButton(row);
     if (clickedID === undefined) {
         addRandomBeat(row, beatType);
         setNewSound("none");
         $(".likeButton").css('display', 'block');
     } else {
-        createTrashButton(row);
         let audio = document.createElement("audio");
         audio.alt = "beat" + row;
         audio.id = "beat" + row;
@@ -59,7 +59,6 @@ function makeBeat(row, beatType, clickedID) {
 
 }
 
-//make this scaleable
 function determineBeatType(){
     let randNum = Math.ceil(Math.random() * totalBeats);
     let beatType = "";
@@ -92,7 +91,7 @@ function turnBeatOn(whichBeatButton, row) {
         currentButton.value = "false"
     };
 };
-//make scaleable
+
 function addRandomBeat(row, beatType){
     let audio = document.createElement("audio");
     audio.alt = "beat" + row;
@@ -190,8 +189,8 @@ function createTrashButton(row) {
 function keepBeat(){
     $(".newsoundbutton").css('display', 'block');
     $(".likeButton").css('display', 'none');
-    createTrashButton();
 }
+
 function deleteBeat(row){
     row -= 1;
     if (row === 1){
@@ -203,9 +202,10 @@ function deleteBeat(row){
 } 
 
 function trashRow(value) {
+    if (value == rowCount-1){
+        keepBeat();
+    }
     document.getElementById("beatbuttons-row" + value).remove();
-    clearInterval(myLoop);
-    playLoop();
 }
 
 async function playLoop(){
@@ -217,6 +217,12 @@ async function playLoop(){
         for (let r = 1; r <= row; r++) {
             let myDiv = document.getElementById("beatbuttons-row" + r);
             if(myDiv){
+                if (tempoMarker === 0) {
+                    document.getElementById("r" + r + "c" + 16).style.opacity = 1;
+                } else {
+                    document.getElementById("r" + r + "c" + (tempoMarker)).style.opacity = 1;
+                }
+                document.getElementById("r" + r + "c" + (tempoMarker + 1)).style.opacity = 0.25;
                 //set an if statement to say if the row is paused or played
                 if (document.getElementById("playPauseRow" + r).value === "Pause"){
                     if (document.getElementById("r" + r + "c" + (tempoMarker + 1)).value === "true") {
@@ -239,34 +245,47 @@ async function playLoop(){
     
 }
 
-function playPause() {
+function playStop() { //main play/pause button
     if (rowCount != 1) {
-        if (document.getElementById("playButton").value === "Pause"){
+        if (document.getElementById("playButton").value === "Stop"){
             document.getElementById("playButton").value = "Play";
+            for (let r = 1; r <= rowCount-1; r++) {
+                let myDiv = document.getElementById("beatbuttons-row" + r);
+                if (myDiv){
+                    for (let c = 1; c <= 16; c++) {
+                        document.getElementById("r" + r + "c" + c).style.opacity = 1;
+                    }
+                }
+            }
             clearInterval(myLoop);
         } else {
-            document.getElementById("playButton").value = "Pause"
+            document.getElementById("playButton").value = "Stop"
             playLoop();
         }
     }
 }
 
-function playPauseRow(clickedID,){
+function playPauseRow(clickedID,){ //individual play pause button
     let button = document.getElementById(clickedID);
     if (button.innerHTML === "Pause") {
         button.value = "Play";
         button.innerHTML = "Play";
 
     } else {
-        button.value = "play";
+        button.value = "Pause";
         button.innerHTML = "Pause";
     }
-    clearInterval(myLoop);
-    playLoop();
-
 }
 
 function tempoChange() {
+    for (let r = 1; r <= rowCount - 1; r++) {
+        let myDiv = document.getElementById("beatbuttons-row" + r);
+        if (myDiv) {
+            for (let c = 1; c <= 16; c++) {
+                document.getElementById("r" + r + "c" + c).style.opacity = 1;
+            }
+        }
+    }
     clearInterval(myLoop);
     playLoop();
 }
@@ -285,94 +304,170 @@ function playSound(clickedID) {
     audio.src = "SampleSwap/HITS/" + clickedID;
     audio.play();
 }
-try {
-    function addBeatsToDropdown() {
-        for (let i = 1; i <= numClapBeats; i++) {
 
-            let clapContainer = document.getElementById("clapContainer");
-            let clapButton = document.createElement("button");
-            clapButton.id = "Clap/clap" + i + ".wav";
-            clapButton.classList.add("sideBarSound");
-            clapButton.onclick = function() {playSound(this.id, "clap")};
-            clapButton.ondblclick = function() {makeBeat(rowCount, "clap", this.id)}
-            clapButton.innerHTML = "Clap " + i;
-            clapContainer.appendChild(clapButton);
-        }
-        for (let i = 1; i <= numKickBeats; i++) {
-            let kickContainer = document.getElementById("kickContainer");
-            let kickButton = document.createElement("button");
-            kickButton.id = "Kick/kick" + i + ".wav";
-            kickButton.classList.add("sideBarSound");
-            kickButton.onclick = function () { playSound(this.id) };
-            kickButton.ondblclick = function () { makeBeat(rowCount, "kick", this.id) }
-            kickButton.innerHTML = "Kick " + i;
-            kickContainer.appendChild(kickButton);
-        }
-        for (let i = 1; i <= numPercussionBeats; i++) {
-            let percussionContainer = document.getElementById("percussionContainer");
-            let percussionButton = document.createElement("button");
-            percussionButton.id = "Percussion/percussion" + i + ".wav";
-            percussionButton.classList.add("sideBarSound");
-            percussionButton.onclick = function () { playSound(this.id) };
-            percussionButton.ondblclick = function () { makeBeat(rowCount, "percussion", this.id) }
-            percussionButton.innerHTML = "Cymbal " + i;
-            percussionContainer.appendChild(percussionButton);
-        }
-        for (let i = 1; i <= numQuestionBeats; i++) {
-            let questionContainer = document.getElementById("questionContainer");
-            let questionButton = document.createElement("button");
-            questionButton.id = "Question/question" + i + ".wav";
-            questionButton.classList.add("sideBarSound");
-            questionButton.onclick = function () { playSound(this.id) };
-            questionButton.ondblclick = function () { makeBeat(rowCount, "question", this.id) }
-            questionButton.innerHTML = "Who Knows " + i;
-            questionContainer.appendChild(questionButton);
-        }
-        for (let i = 1; i <= numRobotBeats; i++) {
-            let robotContainer = document.getElementById("robotContainer");
-            let robotButton = document.createElement("button");
-            robotButton.id = "Robot/robot" + i + ".wav";
-            robotButton.classList.add("sideBarSound");
-            robotButton.onclick = function () { playSound(this.id) };
-            robotButton.ondblclick = function () { makeBeat(rowCount, "robot", this.id) }
-            robotButton.innerHTML = "Electric " + i;
-            robotContainer.appendChild(robotButton);
-        }
-        for (let i = 1; i <= numSnareBeats; i++) {
-            let snareContainer = document.getElementById("snareContainer");
-            let snareButton = document.createElement("button");
-            snareButton.id = "Snare/snare" + i + ".wav";
-            snareButton.classList.add("sideBarSound");
-            snareButton.onclick = function () { playSound(this.id) };
-            snareButton.ondblclick = function () { makeBeat(rowCount, "snare", this.id) }
-            snareButton.innerHTML = "Snare " + i;
-            snareContainer.appendChild(snareButton);
-        }
-        for (let i = 1; i <= numVoiceBeats; i++) {
-            let voiceContainer = document.getElementById("voiceContainer");
-            let voiceButton = document.createElement("button");
-            voiceButton.id = "Voice/voice" + i + ".wav";
-            voiceButton.classList.add("sideBarSound");
-            voiceButton.onclick = function () { playSound(this.id) };
-            voiceButton.ondblclick = function () { makeBeat(rowCount, "voice", this.id) }
-            voiceButton.innerHTML = "Vocal " + i;
-            voiceContainer.appendChild(voiceButton);
-        }
-        for (let i = 1; i <= numWindBeats; i++) {
-            let windContainer = document.getElementById("windContainer");
-            let windButton = document.createElement("button");
-            windButton.id = "Wind/wind" + i + ".wav";
-            windButton.classList.add("sideBarSound");
-            windButton.onclick = function () { playSound(this.id) };
-            windButton.ondblclick = function () { makeBeat(rowCount, "wind", this.id) }
-            windButton.innerHTML = "Horn " + i;
-            windContainer.appendChild(windButton);
-        }
+function addBeatsToDropdown() {
+    for (let i = 1; i <= numClapBeats; i++) {
+        let clapContainer = document.getElementById("clapContainer");
+        let clapList = document.createElement("li");
+        clapList.classList.add("sideBarSound");
+        clapList.innerHTML = "Clap " + i;
+        clapContainer.appendChild(clapList);
+
+        let playButton = document.createElement("i");
+        playButton.id = "Clap/clap" + i + ".wav";
+        playButton.classList.add("fa");
+        playButton.classList.add("fa-play-circle-o");
+        playButton.onclick = function() {playSound(this.id, "clap")};
+        clapList.appendChild(playButton);
+
+        let plusButton = document.createElement("i");
+        plusButton.classList.add("fa");
+        plusButton.classList.add("fa-plus-square-o");
+        plusButton.onclick = function () { makeBeat(rowCount, "clap", playButton.id) };
+        clapList.appendChild(plusButton);
     }
-}     
-catch(error){
-       console.error(error);
+    for (let i = 1; i <= numKickBeats; i++) {
+        let kickContainer = document.getElementById("kickContainer");
+        let kickList = document.createElement("li");
+        kickList.classList.add("sideBarSound");
+        kickList.innerHTML = "Kick " + i;
+        kickContainer.appendChild(kickList);
+
+        let playButton = document.createElement("i");
+        playButton.id = "Kick/kick" + i + ".wav";
+        playButton.classList.add("fa");
+        playButton.classList.add("fa-play-circle-o");
+        playButton.onclick = function () { playSound(this.id, "kick") };
+        kickList.appendChild(playButton);
+
+        let plusButton = document.createElement("i");
+        plusButton.classList.add("fa");
+        plusButton.classList.add("fa-plus-square-o");
+        plusButton.onclick = function () { makeBeat(rowCount, "kick", playButton.id) };
+        kickList.appendChild(plusButton);
+    }
+    for (let i = 1; i <= numPercussionBeats; i++) {
+        let percussionContainer = document.getElementById("percussionContainer");
+        let percussionList = document.createElement("li");
+        percussionList.classList.add("sideBarSound");
+        percussionList.innerHTML = "Cymbal " + i;
+        percussionContainer.appendChild(percussionList);
+
+        let playButton = document.createElement("i");
+        playButton.id = "Percussion/percussion" + i + ".wav";
+        playButton.classList.add("fa");
+        playButton.classList.add("fa-play-circle-o");
+        playButton.onclick = function () { playSound(this.id, "percussion") };
+        percussionList.appendChild(playButton);
+
+        let plusButton = document.createElement("i");
+        plusButton.classList.add("fa");
+        plusButton.classList.add("fa-plus-square-o");
+        plusButton.onclick = function () { makeBeat(rowCount, "percussion", playButton.id) };
+        percussionList.appendChild(plusButton);
+    }
+    for (let i = 1; i <= numQuestionBeats; i++) {
+        let questionContainer = document.getElementById("questionContainer");
+        let questionList = document.createElement("li");
+        questionList.classList.add("sideBarSound");
+        questionList.innerHTML = "Who Knows" + i;
+        questionContainer.appendChild(questionList);
+
+        let playButton = document.createElement("i");
+        playButton.id = "Question/question" + i + ".wav";
+        playButton.classList.add("fa");
+        playButton.classList.add("fa-play-circle-o");
+        playButton.onclick = function () { playSound(this.id, "question") };
+        questionList.appendChild(playButton);
+
+        let plusButton = document.createElement("i");
+        plusButton.classList.add("fa");
+        plusButton.classList.add("fa-plus-square-o");
+        plusButton.onclick = function () { makeBeat(rowCount, "question", playButton.id) };
+        questionList.appendChild(plusButton);
+    }
+    for (let i = 1; i <= numRobotBeats; i++) {
+        let robotContainer = document.getElementById("robotContainer");
+        let robotList = document.createElement("li");
+        robotList.classList.add("sideBarSound");
+        robotList.innerHTML = "Electric " + i;
+        robotContainer.appendChild(robotList);
+
+        let playButton = document.createElement("i");
+        playButton.id = "Robot/robot" + i + ".wav";
+        playButton.classList.add("fa");
+        playButton.classList.add("fa-play-circle-o");
+        playButton.onclick = function () { playSound(this.id, "robot") };
+        robotList.appendChild(playButton);
+
+        let plusButton = document.createElement("i");
+        plusButton.classList.add("fa");
+        plusButton.classList.add("fa-plus-square-o");
+        plusButton.onclick = function () { makeBeat(rowCount, "robot", playButton.id) };
+        robotList.appendChild(plusButton);
+    }
+    for (let i = 1; i <= numSnareBeats; i++) {
+        let snareContainer = document.getElementById("snareContainer");
+        let snareList = document.createElement("li");
+        snareList.classList.add("sideBarSound");
+        snareList.innerHTML = "Snare " + i;
+        snareContainer.appendChild(snareList);
+
+        let playButton = document.createElement("i");
+        playButton.id = "Snare/snare" + i + ".wav";
+        playButton.classList.add("fa");
+        playButton.classList.add("fa-play-circle-o");
+        playButton.onclick = function () { playSound(this.id, "snare") };
+        snareList.appendChild(playButton);
+
+        let plusButton = document.createElement("i");
+        plusButton.classList.add("fa");
+        plusButton.classList.add("fa-plus-square-o");
+        plusButton.onclick = function () { makeBeat(rowCount, "snare", playButton.id) };
+        snareList.appendChild(plusButton);
+    }
+    for (let i = 1; i <= numVoiceBeats; i++) {
+        let voiceContainer = document.getElementById("voiceContainer");
+        let voiceList = document.createElement("li");
+        voiceList.classList.add("sideBarSound");
+        voiceList.innerHTML = "Vocal " + i;
+        voiceContainer.appendChild(voiceList);
+
+        let playButton = document.createElement("i");
+        playButton.id = "Voice/voice" + i + ".wav";
+        playButton.classList.add("fa");
+        playButton.classList.add("fa-play-circle-o");
+        playButton.onclick = function () { playSound(this.id, "voice") };
+        voiceList.appendChild(playButton);
+
+        let plusButton = document.createElement("i");
+        plusButton.classList.add("fa");
+        plusButton.classList.add("fa-plus-square-o");
+        plusButton.onclick = function () { makeBeat(rowCount, "voice", playButton.id) };
+        voiceList.appendChild(plusButton);
+    }
+    for (let i = 1; i <= numWindBeats; i++) {
+        let windContainer = document.getElementById("windContainer");
+        let windList = document.createElement("li");
+        windList.classList.add("sideBarSound");
+        windList.innerHTML = "Horn " + i;
+        windContainer.appendChild(windList);
+
+        let playButton = document.createElement("i");
+        playButton.id = "Wind/wind" + i + ".wav";
+        playButton.classList.add("fa");
+        playButton.classList.add("fa-play-circle-o");
+        playButton.onclick = function () { playSound(this.id, "wind") };
+        windList.appendChild(playButton);
+
+        let plusButton = document.createElement("i");
+        plusButton.classList.add("fa");
+        plusButton.classList.add("fa-plus-square-o");
+        plusButton.onclick = function () { makeBeat(rowCount, "wind", playButton.id) };
+        windList.appendChild(plusButton);
+    }
 }
+
 addBeatsToDropdown();
 
 function openSignUp() {
@@ -383,7 +478,7 @@ function closeSignUp() {
     document.getElementById('signUpPage').style.display = 'none';
     document.getElementById("transparentScreen").style.display = "none";
 }
-//I'm not sure if I like this. 
+/*
 let screen = document.getElementById('transparentScreen');
 window.onclick = function (event) {
     if (event.target === screen) {
@@ -392,4 +487,4 @@ window.onclick = function (event) {
         
     }
 }   
-
+*/

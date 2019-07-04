@@ -4,7 +4,8 @@ body{
   min-width:1200px;  
   width: auto !important;  
   width:1200px;
-  background-color: black
+  background-color: black;
+  font-family: 'ZCOOL KuaiLe', cursive;
 }
 
 #mainpage {
@@ -44,6 +45,16 @@ hr{
 
 .fa-caret-down {
   float: left;
+  padding-right: 8px;
+}
+
+.fa-play-circle-o {
+  float: right;
+  padding-right: 40px;
+}
+
+.fa-plus-square-o {
+  float: right;
   padding-right: 8px;
 }
 
