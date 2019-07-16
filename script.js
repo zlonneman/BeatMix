@@ -97,6 +97,7 @@ function addRandomBeat(row, beatType){
     audio.alt = "beat" + row;
     audio.id = "beat" + row;
     let fileNum;
+    //could use switch, but im not sure how that would save time.
     if (beatType === "wind"){
         fileNum = Math.ceil(Math.random() * numWindBeats);
         audio.src = "SampleSwap/HITS/Wind/wind" + fileNum + ".wav";
